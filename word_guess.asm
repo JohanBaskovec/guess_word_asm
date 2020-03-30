@@ -6,18 +6,16 @@ extern fopen,ferror,feof,fscanf,fgetc,rewind,fclose
 extern memset
 
 segment .data
-a       dq  54
-b       dq  43
 
 %define main_menu_start 's'
 %define main_menu_options 'o'
 %define READ 'r'
 %define WORDS_FILE "words.txt"
 
-%define quot '"'
+%define quot "
 %define stringify(x) quot %+ x %+ quot
 %define MAX_WORD_SIZE 128 ; multiple of 16 to keep stack aligned
-%define MAX_WORD_SIZE_STR "128";stringify(MAX_WORD_SIZE)
+%define MAX_WORD_SIZE_STR stringify(MAX_WORD_SIZE)
 
 main_menu:
 .menu               db `Welcome.\n`,main_menu_start,`-Start\n`,main_menu_options,`-Options\n\0`
@@ -46,7 +44,7 @@ get_random_word_str:
 guess_str_debug_print_word   db `Word to guess: %s\n\0`
 guess_str_health             db `Health: %d\n\0`
 guess_str_guessed_word       db `%s\n\0`
-guess_str_scanf              db ` %128s\0`
+guess_str_scanf              db ` %`,MAX_WORD_SIZE_STR,`s\0`
 guess_str_already_guessed    db `You already guessed this letter.\n\0`
 guess_str_correct            db `Correct guess.\0`
 guess_str_wrong              db `Wrong guess.\0`
